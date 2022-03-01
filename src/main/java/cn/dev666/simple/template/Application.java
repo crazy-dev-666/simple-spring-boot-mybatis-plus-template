@@ -20,7 +20,7 @@ public class Application {
 
     @GetMapping("/")              // 接受 Http GET 请求，URL为 /, 返回 hello, dev666
     public String index(){
-        return "hello, dev666";
+        return "hello, dev666.cn";
     }
 
     public static void main(String[] args) {
