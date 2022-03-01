@@ -2,9 +2,17 @@ package cn.dev666.simple.template;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 @SpringBootApplication
 public class SimpleSpringBootMybatisPlusTemplateApplication {
+
+    @GetMapping("/")
+    public String index(){
+        return "hello, dev666";
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(SimpleSpringBootMybatisPlusTemplateApplication.class, args);
