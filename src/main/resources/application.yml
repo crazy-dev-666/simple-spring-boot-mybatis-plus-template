@@ -1,2 +1,28 @@
 server:
   port: 8090           # 配置访问端口
+  servlet:
+    encoding:
+      force: true      # 配置使用 UTF-8 编码
+      charset: UTF-8
+
+spring:
+  application:
+    name: simple-spring-boot-mybatis-plus-template  # 配置项目名
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss  # LocalDateTime、OffsetDateTime、ZonedDateTime
+      date: yyyy-MM-dd                # LocalDate
+      time: HH:mm:ss                  # LocalTime、OffsetTime
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+springfox:
+  documentation:
+    enabled: true
+    swagger-ui:
+      enabled: true
