@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @SpringBootApplication
-public class SimpleSpringBootMybatisPlusTemplateApplication {
+public class Application {
 
     @GetMapping("/")
     public String index(){
@@ -15,7 +15,7 @@ public class SimpleSpringBootMybatisPlusTemplateApplication {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(SimpleSpringBootMybatisPlusTemplateApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
 }
