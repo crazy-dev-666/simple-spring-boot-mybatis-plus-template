@@ -10,6 +10,7 @@ import cn.dev666.simple.template.obj.ito.user.UserPageableITO;
 import cn.dev666.simple.template.obj.model.User;
 import cn.dev666.simple.template.obj.oto.user.UserOTO;
 import cn.dev666.simple.template.obj.oto.user.UserPageOTO;
+import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -55,6 +56,13 @@ public class UserCtrl {
         }
         UserOTO result = userConvert.to(data);
         return Msg.ok(result);
+    }
+
+    @ApiOperation(value = "根据id查询简单信息")
+    @GetMapping("/getSimple/{id}")
+    @JsonView(UserOTO.SimpleView.class)
+    public Msg<UserOTO> getSimple(@ApiParam(value = "主键", required = true) @PathVariable Long id){
+        return getOne(id);
     }
 
     @ApiOperation(value = "新增")

@@ -1,5 +1,7 @@
 package cn.dev666.simple.template.obj.oto.user;
 
+import cn.dev666.simple.template.obj.common.BaseView;
+import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -12,18 +14,24 @@ import java.time.LocalTime;
 @ApiModel(description = "用户 出参")
 public class UserOTO{
 
+    public interface SimpleView extends BaseView {}
+
+    @JsonView(SimpleView.class)
     @ApiModelProperty("主键")
     private Long id;
 
+    @JsonView(SimpleView.class)
     @ApiModelProperty("用户名")
     private String username;
 
+    @JsonView(SimpleView.class)
     @ApiModelProperty("真实姓名")
     private String realName;
 
     @ApiModelProperty("手机号")
     private String phoneNumber;
 
+    @JsonView(SimpleView.class)
     @ApiModelProperty("用户头像")
     private String userImage;
 
