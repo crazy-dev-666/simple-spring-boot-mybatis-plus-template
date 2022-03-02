@@ -15,6 +15,22 @@ import org.springframework.http.ResponseEntity;
 @ApiModel(description = "统一响应体")
 public class ErrorMsg {
 
+	public static ResponseEntity<ErrorMsg> addNothing(){
+		return serverError(ExceptionCode.ADD_NOTHING);
+	}
+
+	public static ResponseEntity<ErrorMsg> updateNothing(){
+		return serverError(ExceptionCode.UPDATE_NOTHING);
+	}
+
+	public static ResponseEntity<ErrorMsg> deleteNothing(){
+		return serverError(ExceptionCode.DELETE_NOTHING);
+	}
+
+	public static ResponseEntity<ErrorMsg> getNothing(){
+		return serverError(ExceptionCode.GET_NOTHING);
+	}
+
 	public static ResponseEntity<ErrorMsg> serverError(@NotNull ExceptionCode msg){
 		return error(msg, HttpStatus.INTERNAL_SERVER_ERROR);
 	}

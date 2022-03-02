@@ -10,13 +10,6 @@ public class LisiBusinessException extends BusinessException {
 
     public static final String EMAIL_TO = "koukaiqiang@piccfs.com.cn";
 
-    public LisiBusinessException() {
-    }
-
-    public LisiBusinessException(String message) {
-        super(message);
-    }
-
     public LisiBusinessException(ResponseEntity<ErrorMsg> entity) {
         super(entity);
     }
@@ -25,17 +18,11 @@ public class LisiBusinessException extends BusinessException {
         super(message, entity);
     }
 
-    public LisiBusinessException(Throwable cause) {
-        super(cause);
-    }
 
     public LisiBusinessException(Throwable cause, ResponseEntity<ErrorMsg> entity) {
         super(cause, entity);
     }
 
-    public LisiBusinessException(String message, Throwable cause) {
-        super(message, cause);
-    }
 
     public LisiBusinessException(String message, Throwable cause, ResponseEntity<ErrorMsg> entity) {
         super(message, cause, entity);

@@ -12,14 +12,6 @@ public class BusinessException extends RuntimeException {
 
     private ResponseEntity<ErrorMsg> entity;
 
-    public BusinessException() {
-        super();
-    }
-
-    public BusinessException(String message) {
-        super(message);
-    }
-
     public BusinessException(ResponseEntity<ErrorMsg> entity) {
         super(entity.getBody() == null ? null : entity.getBody().getMsg());
         this.entity = entity;
@@ -30,18 +22,9 @@ public class BusinessException extends RuntimeException {
         this.entity = entity;
     }
 
-    public BusinessException(Throwable cause) {
-        super(cause);
-    }
-
     public BusinessException(Throwable cause, ResponseEntity<ErrorMsg> entity) {
         super(cause);
         this.entity = entity;
-    }
-
-
-    public BusinessException(String message, Throwable cause) {
-        super(message, cause);
     }
 
     public BusinessException(String message, Throwable cause, ResponseEntity<ErrorMsg> entity) {

@@ -8,6 +8,7 @@ import lombok.Getter;
 public enum ExceptionCode {
 
     DEFAULT_ERROR(1, "服务异常，请稍后重试"),
+    NOT_IMPL(2, "方法还未实现"),
     HTTP_MEDIA_TYPE_ERROR(10, "请求的 Content-Type 与接口不匹配，请确认是否和接口文档一致"),
     HTTP_REQUEST_METHOD_NOT_SUPPORTED(11, "请求方法不支持，请确认是否和接口文档一致"),
     HTTP_MESSAGE_NOT_READABLE(12, "请求参数不能被正确解析，请先确认是否和接口文档一致"),

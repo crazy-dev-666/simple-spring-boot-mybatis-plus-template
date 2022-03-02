@@ -1,8 +1,10 @@
 package cn.dev666.simple.template.ctrl;
 
 import cn.dev666.simple.template.convert.UserConvert;
+import cn.dev666.simple.template.enums.ExceptionCode;
 import cn.dev666.simple.template.exception.BusinessException;
 import cn.dev666.simple.template.exception.LisiBusinessException;
+import cn.dev666.simple.template.obj.common.ErrorMsg;
 import cn.dev666.simple.template.obj.common.Page;
 import cn.dev666.simple.template.obj.common.oto.IdOTO;
 import cn.dev666.simple.template.obj.ito.user.UserModifyITO;
@@ -44,7 +46,7 @@ public class UserCtrl {
     @GetMapping("/page")
     public Page<UserPageOTO> page(@Validated UserPageableITO ito){
         //TODO 待实现
-        throw new LisiBusinessException();
+        throw new LisiBusinessException(ErrorMsg.serverError(ExceptionCode.NOT_IMPL));
     }
 
     @ApiOperation(value = "根据id查询")
@@ -52,7 +54,7 @@ public class UserCtrl {
     public UserOTO get(@ApiParam(value = "主键", required = true) @PathVariable Long id){
         User data = USER_MAP.get(id);
         if (data == null){
-            throw new BusinessException();
+            throw new BusinessException(ErrorMsg.getNothing());
         }
         return userConvert.to(data);
     }
@@ -82,7 +84,7 @@ public class UserCtrl {
         User data = userConvert.from(ito);
         boolean containsKey = USER_MAP.containsKey(data.getId());
         if (!containsKey){
-            throw new BusinessException();
+            throw new BusinessException(ErrorMsg.updateNothing());
         }
     }
 
@@ -92,7 +94,7 @@ public class UserCtrl {
     public void delete(@ApiParam(value = "主键", required = true) @PathVariable Long id){
         User user = USER_MAP.remove(id);
         if (user == null){
-            throw new BusinessException();
+            throw new BusinessException(ErrorMsg.deleteNothing());
         }
     }
 }
