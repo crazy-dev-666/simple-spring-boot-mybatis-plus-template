@@ -20,6 +20,20 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
+  mail:
+    host: smtp.exmail.qq.com
+    port: 465
+    username: lisi@dev666.cn
+    password: Kou7475471+
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+          starttls:
+            enable: true
 
 springfox:
   documentation:

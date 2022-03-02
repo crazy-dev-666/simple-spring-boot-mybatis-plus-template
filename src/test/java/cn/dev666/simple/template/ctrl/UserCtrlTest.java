@@ -1,10 +1,8 @@
 package cn.dev666.simple.template.ctrl;
 
 import cn.dev666.simple.template.ApplicationTests;
-import cn.dev666.simple.template.obj.common.Msg;
 import cn.dev666.simple.template.obj.common.oto.IdOTO;
 import cn.dev666.simple.template.obj.ito.user.UserModifyITO;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -68,9 +66,8 @@ class UserCtrlTest extends ApplicationTests {
                 .andReturn();
 
         String data = result.getResponse().getContentAsString();
-        TypeReference<Msg<IdOTO>> reference = new TypeReference<Msg<IdOTO>>(){};
-        Msg<IdOTO> msg = objectMapper.readValue(data, reference);
-        return Long.valueOf(msg.getData().getId().toString());
+        IdOTO idOTO = objectMapper.readValue(data, IdOTO.class);
+        return Long.valueOf(idOTO.getId().toString());
     }
 
     void getOne(Long id) throws Exception {

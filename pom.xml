@@ -43,6 +43,12 @@
             <version>${springfox.starter.version}</version>
         </dependency>
 
+        <!-- 邮件发送 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
 
         <!-- 值对象转换 工具 -->
         <dependency>

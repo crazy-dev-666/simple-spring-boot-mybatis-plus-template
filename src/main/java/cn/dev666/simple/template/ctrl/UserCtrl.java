@@ -2,6 +2,7 @@ package cn.dev666.simple.template.ctrl;
 
 import cn.dev666.simple.template.convert.UserConvert;
 import cn.dev666.simple.template.exception.BusinessException;
+import cn.dev666.simple.template.exception.LisiBusinessException;
 import cn.dev666.simple.template.obj.common.Page;
 import cn.dev666.simple.template.obj.common.oto.IdOTO;
 import cn.dev666.simple.template.obj.ito.user.UserModifyITO;
@@ -14,7 +15,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +44,7 @@ public class UserCtrl {
     @GetMapping("/page")
     public Page<UserPageOTO> page(@Validated UserPageableITO ito){
         //TODO 待实现
-        throw new BusinessException();
+        throw new LisiBusinessException();
     }
 
     @ApiOperation(value = "根据id查询")
