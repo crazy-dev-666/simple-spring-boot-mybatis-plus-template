@@ -13,23 +13,21 @@ import java.util.List;
 @ApiModel(description = "分页响应结果")
 public class Page<T> {
 
-    public interface DataView extends BaseView {}
-
     @ApiModelProperty(value = "总数据量，默认0", example = "0")
-    @JsonView(DataView.class)
+    @JsonView(BaseView.class)
     private Long total;
 
-    @ApiModelProperty("当前页数据")
-    @JsonView(DataView.class)
-    private List<T> data;
+    @ApiModelProperty("当前页数据列表")
+    @JsonView(BaseView.class)
+    private List<T> list;
 
     public Page() {
         this.total = 0L;
-        this.data = Collections.emptyList();
+        this.list = Collections.emptyList();
     }
 
-    public Page(Long total, List<T> data) {
+    public Page(Long total, List<T> list) {
         this.total = total;
-        this.data = data;
+        this.list = list;
     }
 }
