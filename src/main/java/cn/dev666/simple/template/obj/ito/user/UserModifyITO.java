@@ -33,6 +33,10 @@ public class UserModifyITO{
     private String phoneNumber;
 
     @NotBlank
+    @ApiModelProperty("邮箱")
+    private String email;
+
+    @NotBlank
     @ApiModelProperty("用户头像")
     private String userImage;
 
@@ -59,9 +63,4 @@ public class UserModifyITO{
     @NotNull
     @ApiModelProperty("修改人")
     private Long modifier;
-
-    @NotBlank
-    @ApiModelProperty("邮箱")
-    private String email;
-
 }

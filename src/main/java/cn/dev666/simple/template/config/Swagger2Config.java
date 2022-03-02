@@ -13,7 +13,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Configuration
@@ -24,7 +23,6 @@ public class Swagger2Config {
                 .directModelSubstitute(LocalDateTime.class, Date.class)
                 .directModelSubstitute(LocalDate.class, String.class)
                 .directModelSubstitute(LocalTime.class, String.class)
-                .directModelSubstitute(ZonedDateTime.class, String.class)
                 .apiInfo(apiInfo()).select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
                 .paths(PathSelectors.any())

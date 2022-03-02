@@ -24,6 +24,9 @@ public class UserPageOTO{
     @ApiModelProperty("手机号")
     private String phoneNumber;
 
+    @ApiModelProperty("邮箱")
+    private String email;
+
     @ApiModelProperty("用户头像")
     private String userImage;
 
@@ -50,8 +53,4 @@ public class UserPageOTO{
 
     @ApiModelProperty(value="修改时间", example = "2021-01-01 00:00:00")
     private LocalDateTime modifyTime;
-
-    @ApiModelProperty("邮箱")
-    private String email;
-
 }

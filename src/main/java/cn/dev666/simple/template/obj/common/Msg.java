@@ -12,11 +12,6 @@ import lombok.NoArgsConstructor;
 public class Msg<T> {
 
 	private static final int OK = 0;
-    public static final Integer DEFAULT_ERROR = 1;
-	public static final Integer GET_NOTHING = 10;
-	public static final Integer ADD_NOTHING = 11;
-	public static final Integer UPDATE_NOTHING = 12;
-	public static final Integer DELETE_NOTHING = 13;
 
 	public static <T> Msg<T> ok(){
 		return new Msg<>(OK, "", null);
