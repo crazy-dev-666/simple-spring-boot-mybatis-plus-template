@@ -50,7 +50,11 @@ public enum CommonErrorInfo implements ErrorInfo {
     /**
      * 删除操作成功，没有影响行数
      */
-    DELETE_NOTHING(HttpStatus.INTERNAL_SERVER_ERROR,102, "操作成功，但未删除数据");
+    DELETE_NOTHING(HttpStatus.INTERNAL_SERVER_ERROR,102, "操作成功，但未删除数据"),
+    /**
+     * 新增操作成功，没有影响行数
+     */
+    ADD_NOTHING(HttpStatus.INTERNAL_SERVER_ERROR,103, "操作成功，但未新增数据");
 
     // Http 状态码
     private HttpStatus status;
