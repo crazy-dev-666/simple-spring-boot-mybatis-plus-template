@@ -1,7 +1,7 @@
 package cn.dev666.simple.template.ctrl;
 
 import cn.dev666.simple.template.convert.UserConvert;
-import cn.dev666.simple.template.enums.ExceptionCode;
+import cn.dev666.simple.template.enums.CommonErrorInfo;
 import cn.dev666.simple.template.exception.BusinessException;
 import cn.dev666.simple.template.exception.DeleteNothingException;
 import cn.dev666.simple.template.exception.GetNothingException;
@@ -47,7 +47,7 @@ public class UserCtrl {
     @GetMapping("/page")
     public Page<UserPageOTO> page(@Validated UserPageableITO ito){
         //TODO 待实现
-        throw new BusinessException(ExceptionCode.NOT_IMPL);
+        throw new BusinessException(CommonErrorInfo.NOT_IMPL);
     }
 
     @ApiOperation(value = "根据id查询")

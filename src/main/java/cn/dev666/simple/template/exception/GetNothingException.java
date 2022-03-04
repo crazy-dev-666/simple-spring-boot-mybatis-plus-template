@@ -1,10 +1,10 @@
 package cn.dev666.simple.template.exception;
 
-import cn.dev666.simple.template.enums.ExceptionCode;
+import cn.dev666.simple.template.enums.CommonErrorInfo;
 
 public class GetNothingException extends BusinessException {
 
     public GetNothingException() {
-        super(ExceptionCode.GET_NOTHING);
+        super(CommonErrorInfo.GET_NOTHING);
     }
 }

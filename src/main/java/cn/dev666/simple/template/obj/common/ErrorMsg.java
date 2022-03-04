@@ -1,6 +1,6 @@
 package cn.dev666.simple.template.obj.common;
 
-import cn.dev666.simple.template.enums.ExceptionCode;
+import cn.dev666.simple.template.exception.ErrorInfo;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.sun.istack.internal.NotNull;
 import io.swagger.annotations.ApiModel;
@@ -15,11 +15,11 @@ import org.springframework.http.ResponseEntity;
 @ApiModel(description = "统一响应体")
 public class ErrorMsg {
 
-	public static ResponseEntity<ErrorMsg> error(@NotNull ExceptionCode msg){
+	public static ResponseEntity<ErrorMsg> error(@NotNull ErrorInfo msg){
 		return error(msg.getCode(), msg.getMsg(), msg.getStatus());
 	}
 
-    public static ResponseEntity<ErrorMsg> error(@NotNull ExceptionCode msg, @NotNull String message){
+    public static ResponseEntity<ErrorMsg> error(@NotNull ErrorInfo msg, @NotNull String message){
         return error(msg.getCode(), message, msg.getStatus());
     }
 

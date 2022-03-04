@@ -1,6 +1,6 @@
 package cn.dev666.simple.template.advice;
 
-import cn.dev666.simple.template.enums.ExceptionCode;
+import cn.dev666.simple.template.enums.CommonErrorInfo;
 import cn.dev666.simple.template.exception.BusinessException;
 import cn.dev666.simple.template.obj.common.ErrorMsg;
 import lombok.extern.slf4j.Slf4j;
@@ -27,19 +27,19 @@ public class CommonErrorCtrl {
     @ExceptionHandler(value = {HttpMediaTypeException.class})
     public ResponseEntity<ErrorMsg> handleHttpMediaTypeException(HttpServletRequest request) {
         log.error("请求 " + request.getRequestURI() + " 参数格式异常");
-        return ErrorMsg.error(ExceptionCode.HTTP_MEDIA_TYPE_ERROR);
+        return ErrorMsg.error(CommonErrorInfo.HTTP_MEDIA_TYPE_ERROR);
     }
 
     @ExceptionHandler(value = {HttpRequestMethodNotSupportedException.class})
     public ResponseEntity<ErrorMsg> handleHttpRequestMethodNotSupportedException(HttpServletRequest request) {
         log.error("请求 " + request.getRequestURI() + " 方法不支持");
-        return ErrorMsg.error(ExceptionCode.HTTP_REQUEST_METHOD_NOT_SUPPORTED);
+        return ErrorMsg.error(CommonErrorInfo.HTTP_REQUEST_METHOD_NOT_SUPPORTED);
     }
 
     @ExceptionHandler(value = {HttpMessageNotReadableException.class})
     public ResponseEntity<ErrorMsg> handleOtherExceptions(final HttpMessageNotReadableException ex, HttpServletRequest request) {
         log.error("请求 " + request.getRequestURI() + " 参数解析异常", ex);
-        return ErrorMsg.error(ExceptionCode.HTTP_MESSAGE_NOT_READABLE);
+        return ErrorMsg.error(CommonErrorInfo.HTTP_MESSAGE_NOT_READABLE);
     }
 
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
@@ -53,7 +53,7 @@ public class CommonErrorCtrl {
         }else {
             msg = ex.getMessage();
         }
-        return ErrorMsg.error(ExceptionCode.METHOD_ARGUMENT_NOT_VALID, msg);
+        return ErrorMsg.error(CommonErrorInfo.METHOD_ARGUMENT_NOT_VALID, msg);
     }
 
     @ExceptionHandler(value = {BindException.class})
@@ -67,7 +67,7 @@ public class CommonErrorCtrl {
         }else {
             msg = ex.getMessage();
         }
-        return ErrorMsg.error(ExceptionCode.BIND_EXCEPTION, msg);
+        return ErrorMsg.error(CommonErrorInfo.BIND_EXCEPTION, msg);
     }
 
     @ExceptionHandler(value = {BusinessException.class})
@@ -79,6 +79,6 @@ public class CommonErrorCtrl {
     @ExceptionHandler(value = {Throwable.class})
     public ResponseEntity<ErrorMsg> handleOtherExceptions(final Throwable ex, HttpServletRequest request) {
         log.error("请求 "+request.getRequestURI()+" 出错", ex);
-        return ErrorMsg.error(ExceptionCode.DEFAULT_ERROR);
+        return ErrorMsg.error(CommonErrorInfo.DEFAULT_ERROR);
     }
 }
