@@ -7,7 +7,9 @@ import cn.dev666.simple.template.obj.model.User;
 import cn.dev666.simple.template.obj.oto.user.UserPageOTO;
 import cn.dev666.simple.template.service.UserService;
 import cn.dev666.simple.template.utils.PageUtils;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,5 +33,11 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
          IPage<UserPageOTO> page = PageUtils.newPage(ito);
          page = userDao.selectPageOto(page, ito);
         return PageUtils.newPage(page);
+    }
+
+    @Override
+    public User getByUserName(String username) {
+        LambdaQueryWrapper<User> query = Wrappers.lambdaQuery();
+        return userDao.selectOne(query.eq(User::getUsername, username));
     }
 }

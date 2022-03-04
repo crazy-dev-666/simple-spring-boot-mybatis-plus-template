@@ -1,5 +1,6 @@
 package cn.dev666.simple.template.ctrl;
 
+import cn.dev666.simple.template.annotation.Anonymous;
 import cn.dev666.simple.template.convert.UserConvert;
 import cn.dev666.simple.template.exception.AddNothingException;
 import cn.dev666.simple.template.exception.DeleteNothingException;
@@ -7,9 +8,11 @@ import cn.dev666.simple.template.exception.GetNothingException;
 import cn.dev666.simple.template.exception.UpdateNothingException;
 import cn.dev666.simple.template.obj.common.Page;
 import cn.dev666.simple.template.obj.common.oto.IdOTO;
+import cn.dev666.simple.template.obj.ito.user.LoginITO;
 import cn.dev666.simple.template.obj.ito.user.UserModifyITO;
 import cn.dev666.simple.template.obj.ito.user.UserPageableITO;
 import cn.dev666.simple.template.obj.model.User;
+import cn.dev666.simple.template.obj.oto.user.LoginOTO;
 import cn.dev666.simple.template.obj.oto.user.UserOTO;
 import cn.dev666.simple.template.obj.oto.user.UserPageOTO;
 import cn.dev666.simple.template.service.UserService;
@@ -18,10 +21,15 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -38,6 +46,20 @@ public class UserCtrl {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private AuthenticationManagerBuilder authenticationManagerBuilder;
+
+    @Anonymous
+    @ApiOperation(value = "登录")
+    @PostMapping("/login")
+    public LoginOTO login(@Validated @RequestBody LoginITO ito, HttpSession session){
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(ito.getUsername(), ito.getPassword());
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return new LoginOTO(session.getId());
+    }
 
     @ApiOperation(value = "查询分页列表")
     @GetMapping("/page")

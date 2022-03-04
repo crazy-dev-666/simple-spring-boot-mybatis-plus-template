@@ -29,6 +29,22 @@ spring:
     init:
       schema-locations: classpath:sql/schema.sql
       data-locations: classpath:sql/data.sql
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    timeout: 5s
+  session:
+    store-type: redis
+    timeout: 4h
+  data:
+    redis:
+      repositories:
+        enabled: false
+
+user:
+  session:
+    header: Auth-Token
+    maxOnlineUser: 1
 
 mybatis-plus:
   global-config:

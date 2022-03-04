@@ -4,8 +4,10 @@ import cn.dev666.simple.template.enums.CommonErrorInfo;
 import cn.dev666.simple.template.exception.BusinessException;
 import cn.dev666.simple.template.obj.common.ErrorMsg;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -68,6 +70,12 @@ public class CommonErrorCtrl {
             msg = ex.getMessage();
         }
         return ErrorMsg.error(CommonErrorInfo.BIND_EXCEPTION, msg);
+    }
+
+    @ExceptionHandler(value = {AuthenticationException.class})
+    public ResponseEntity<ErrorMsg> handleOtherExceptions(final AuthenticationException ex, HttpServletRequest request) {
+        log.error("请求 "+request.getRequestURI()+" 鉴权失败", ex);
+        return ErrorMsg.error(CommonErrorInfo.DEFAULT_ERROR.getCode(), ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(value = {BusinessException.class})
