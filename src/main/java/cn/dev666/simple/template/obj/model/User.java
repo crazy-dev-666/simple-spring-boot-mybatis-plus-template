@@ -1,5 +1,6 @@
 package cn.dev666.simple.template.obj.model;
 
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -12,8 +13,10 @@ import java.time.LocalTime;
 
 @Data
 @ApiModel(description = "用户")
+@TableName("b_user")
 public class User implements Serializable {
 
+    @TableId(type = IdType.AUTO )
     @ApiModelProperty("主键")
     private Long id;
 
@@ -36,6 +39,7 @@ public class User implements Serializable {
     private String userImage;
 
     @ApiModelProperty("删除状态（0：正常，1：删除）")
+    @TableLogic
     private Integer deleteFlag;
 
     @ApiModelProperty(value="出生日期", example = "2021-01-01")
@@ -54,8 +58,10 @@ public class User implements Serializable {
     private Long modifier;
 
     @ApiModelProperty(value="创建时间", example = "2021-01-01 00:00:00")
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     @ApiModelProperty(value="修改时间", example = "2021-01-01 00:00:00")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime modifyTime;
 }

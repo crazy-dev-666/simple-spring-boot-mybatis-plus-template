@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.dev666.simple.template.dao.UserDao">
+
+        <select id="selectPageOto" resultType="cn.dev666.simple.template.obj.oto.user.UserPageOTO">
+                select id,username,password,real_name,phone_number,email,user_image,delete_flag,birthday,work_start_time,work_end_time,creator,modifier,create_time,modify_time
+                from b_user
+        </select>
+</mapper>

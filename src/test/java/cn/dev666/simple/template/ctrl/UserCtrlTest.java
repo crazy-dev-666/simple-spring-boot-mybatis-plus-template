@@ -47,6 +47,8 @@ class UserCtrlTest extends ApplicationTests {
 
         Long id = add(user);
 
+        page();
+
         getOne(id);
 
         user.setId(id);
@@ -68,6 +70,12 @@ class UserCtrlTest extends ApplicationTests {
         String data = result.getResponse().getContentAsString();
         IdOTO idOTO = objectMapper.readValue(data, IdOTO.class);
         return Long.valueOf(idOTO.getId().toString());
+    }
+
+    void page() throws Exception {
+        mockMvc.perform(get(URL_PREFIX + "/page"))
+                .andExpect(status().isOk())
+                .andDo(print());
     }
 
     void getOne(Long id) throws Exception {
