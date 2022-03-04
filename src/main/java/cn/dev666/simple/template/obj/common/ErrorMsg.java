@@ -23,7 +23,7 @@ public class ErrorMsg {
         return error(msg.getCode(), message, msg.getStatus());
     }
 
-    private static ResponseEntity<ErrorMsg> error( int code, @NotNull String msg, @NotNull HttpStatus status){
+	public static ResponseEntity<ErrorMsg> error( int code, @NotNull String msg, @NotNull HttpStatus status){
 		assert msg != null;
 		assert status != null;
 
