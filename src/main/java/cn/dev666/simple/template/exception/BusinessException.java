@@ -35,6 +35,6 @@ public class BusinessException extends RuntimeException {
     }
 
     public ResponseEntity<ErrorMsg> getResponseEntity() {
-        return ErrorMsg.error(code);
+        return ErrorMsg.error(code, getMessage());
     }
 }
