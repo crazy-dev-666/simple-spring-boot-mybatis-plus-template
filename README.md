@@ -1,0 +1,1 @@
+好用的单体应用开发模板，基于 spring-boot + mybatis-plus。

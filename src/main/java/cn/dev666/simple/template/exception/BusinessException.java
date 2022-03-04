@@ -1,5 +1,6 @@
 package cn.dev666.simple.template.exception;
 
+import cn.dev666.simple.template.enums.ExceptionCode;
 import cn.dev666.simple.template.obj.common.ErrorMsg;
 import org.springframework.http.ResponseEntity;
 
@@ -8,31 +9,33 @@ import org.springframework.http.ResponseEntity;
  */
 public class BusinessException extends RuntimeException {
 
-    public static final String[] EMAIL_CC = {};
+    private ExceptionCode code;
 
-    private ResponseEntity<ErrorMsg> entity;
-
-    public BusinessException(ResponseEntity<ErrorMsg> entity) {
-        super(entity.getBody() == null ? null : entity.getBody().getMsg());
-        this.entity = entity;
+    public BusinessException(ExceptionCode code) {
+        super(code.getMsg());
+        this.code = code;
     }
 
-    public BusinessException(String message, ResponseEntity<ErrorMsg> entity) {
+    public BusinessException(String message, ExceptionCode code) {
         super(message);
-        this.entity = entity;
+        this.code = code;
     }
 
-    public BusinessException(Throwable cause, ResponseEntity<ErrorMsg> entity) {
+    public BusinessException(Throwable cause, ExceptionCode code) {
         super(cause);
-        this.entity = entity;
+        this.code = code;
     }
 
-    public BusinessException(String message, Throwable cause, ResponseEntity<ErrorMsg> entity) {
+    public BusinessException(String message, Throwable cause, ExceptionCode code) {
         super(message, cause);
-        this.entity = entity;
+        this.code = code;
+    }
+
+    public ExceptionCode getExceptionCode() {
+        return code;
     }
 
     public ResponseEntity<ErrorMsg> getResponseEntity() {
-        return entity;
+        return ErrorMsg.error(code);
     }
 }

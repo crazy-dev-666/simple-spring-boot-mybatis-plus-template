@@ -3,8 +3,9 @@ package cn.dev666.simple.template.ctrl;
 import cn.dev666.simple.template.convert.UserConvert;
 import cn.dev666.simple.template.enums.ExceptionCode;
 import cn.dev666.simple.template.exception.BusinessException;
-import cn.dev666.simple.template.exception.LisiBusinessException;
-import cn.dev666.simple.template.obj.common.ErrorMsg;
+import cn.dev666.simple.template.exception.DeleteNothingException;
+import cn.dev666.simple.template.exception.GetNothingException;
+import cn.dev666.simple.template.exception.UpdateNothingException;
 import cn.dev666.simple.template.obj.common.Page;
 import cn.dev666.simple.template.obj.common.oto.IdOTO;
 import cn.dev666.simple.template.obj.ito.user.UserModifyITO;
@@ -46,7 +47,7 @@ public class UserCtrl {
     @GetMapping("/page")
     public Page<UserPageOTO> page(@Validated UserPageableITO ito){
         //TODO 待实现
-        throw new LisiBusinessException(ErrorMsg.serverError(ExceptionCode.NOT_IMPL));
+        throw new BusinessException(ExceptionCode.NOT_IMPL);
     }
 
     @ApiOperation(value = "根据id查询")
@@ -54,7 +55,7 @@ public class UserCtrl {
     public UserOTO get(@ApiParam(value = "主键", required = true) @PathVariable Long id){
         User data = USER_MAP.get(id);
         if (data == null){
-            throw new BusinessException(ErrorMsg.getNothing());
+            throw new GetNothingException();
         }
         return userConvert.to(data);
     }
@@ -68,7 +69,6 @@ public class UserCtrl {
 
     @ApiOperation(value = "新增")
     @PostMapping("/add")
-    //@ResponseStatus(HttpStatus.CREATED)  自定义正常响应状态码
     public IdOTO add(@Validated @RequestBody UserModifyITO ito){
         User data = userConvert.from(ito);
         long id = ID_SEQUENCE.getAndIncrement();
@@ -79,22 +79,20 @@ public class UserCtrl {
 
     @ApiOperation(value = "更新")
     @PutMapping("/update")
-    //@ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Validated(UserModifyITO.Update.class) @RequestBody UserModifyITO ito){
         User data = userConvert.from(ito);
         boolean containsKey = USER_MAP.containsKey(data.getId());
         if (!containsKey){
-            throw new BusinessException(ErrorMsg.updateNothing());
+            throw new UpdateNothingException();
         }
     }
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete/{id}")
-    //@ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@ApiParam(value = "主键", required = true) @PathVariable Long id){
         User user = USER_MAP.remove(id);
         if (user == null){
-            throw new BusinessException(ErrorMsg.deleteNothing());
+            throw new DeleteNothingException();
         }
     }
 }
