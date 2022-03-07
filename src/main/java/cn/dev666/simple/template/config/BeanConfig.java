@@ -23,7 +23,9 @@ public class BeanConfig {
     private String header;
 
     /**
-     * 定义 sessionId 在 http 请求头上的 key
+     * 自定义 sessionId 在 http 请求头上的 key。也可选用默认的key：
+     *          {@link HeaderHttpSessionIdResolver#xAuthToken()}
+     *          {@link HeaderHttpSessionIdResolver#authenticationInfo()}
      */
     @Bean
     public HttpSessionIdResolver httpSessionIdResolver(){
