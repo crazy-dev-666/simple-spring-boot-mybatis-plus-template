@@ -4,10 +4,13 @@ import cn.dev666.simple.template.enums.CommonErrorInfo;
 import cn.dev666.simple.template.exception.BusinessException;
 import cn.dev666.simple.template.obj.common.ErrorMsg;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AccountStatusException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -75,8 +78,25 @@ public class CommonErrorCtrl {
     @ExceptionHandler(value = {AuthenticationException.class})
     public ResponseEntity<ErrorMsg> handleOtherExceptions(final AuthenticationException ex, HttpServletRequest request) {
         log.error("请求 "+request.getRequestURI()+" 鉴权失败", ex);
-        return ErrorMsg.error(CommonErrorInfo.DEFAULT_ERROR.getCode(), ex.getMessage(), HttpStatus.UNAUTHORIZED);
+
+        String msg;
+        if (ex instanceof UsernameNotFoundException || ex instanceof BadCredentialsException){
+            msg = "用户名或密码不正确";
+        }else if (ex instanceof AccountStatusException){
+            msg = "账号状态异常";
+        }else {
+            return ErrorMsg.error(CommonErrorInfo.DEFAULT_ERROR);
+        }
+
+        return ErrorMsg.error(CommonErrorInfo.UNAUTHORIZED, msg);
     }
+
+    @ExceptionHandler(value = {AccessDeniedException.class})
+    public ResponseEntity<ErrorMsg> handleOtherExceptions(final AccessDeniedException ex, HttpServletRequest request) {
+        log.error("请求 "+request.getRequestURI()+" 无权访问", ex);
+        return ErrorMsg.error(CommonErrorInfo.ACCESS_DENIED);
+    }
+
 
     @ExceptionHandler(value = {BusinessException.class})
     public ResponseEntity<ErrorMsg> handleOtherExceptions(final BusinessException ex, HttpServletRequest request) {

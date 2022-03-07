@@ -39,6 +39,16 @@ public enum CommonErrorInfo implements ErrorInfo {
      */
     BIND_EXCEPTION(HttpStatus.PRECONDITION_FAILED,14, ""),
 
+
+    /**
+     * 鉴权失败
+     */
+    UNAUTHORIZED(HttpStatus.UNAUTHORIZED,20, ""),
+    /**
+     * 没有权限操作
+     */
+    ACCESS_DENIED(HttpStatus.UNAUTHORIZED,21, "无权限进行此操作"),
+
     /**
      * 单个查询结果为空
      */

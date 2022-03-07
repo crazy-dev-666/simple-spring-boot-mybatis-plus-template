@@ -1,18 +1,23 @@
 package cn.dev666.simple.template.config;
 
 import cn.dev666.simple.template.annotation.Anonymous;
+import cn.dev666.simple.template.enums.CommonErrorInfo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy;
+import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.session.Session;
+import org.springframework.session.data.redis.RedisIndexedSessionRepository;
 import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.method.HandlerMethod;
@@ -21,6 +26,8 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -31,7 +38,7 @@ import java.util.Set;
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource
-    private SpringSessionBackedSessionRegistry<? extends Session> registry;
+    private RedisIndexedSessionRepository repository;
 
     @Resource
     private RequestMappingHandlerMapping requestHandlerMapping;
@@ -45,6 +52,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
 
+        SpringSessionBackedSessionRegistry<? extends Session> registry = new SpringSessionBackedSessionRegistry<>(repository);
         ConcurrentSessionControlAuthenticationStrategy authenticationStrategy = new ConcurrentSessionControlAuthenticationStrategy(registry);
         authenticationStrategy.setMaximumSessions(maxOnlineUser);
         authenticationStrategy.setExceptionIfMaximumExceeded(false);
@@ -56,14 +64,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
                 //异常处理
                 .exceptionHandling()
-                .authenticationEntryPoint((req,res,e)-> res.sendError(HttpStatus.UNAUTHORIZED.value(), e.getMessage()))
-                .accessDeniedHandler((req,res,e)-> res.sendError(HttpStatus.FORBIDDEN.value(), e.getMessage()))
+                .authenticationEntryPoint((req,res,e)-> authenticationEntryPoint(res, e))
+                .accessDeniedHandler((req,res,e)-> res.sendError(CommonErrorInfo.ACCESS_DENIED.getStatus().value(),
+                        CommonErrorInfo.ACCESS_DENIED.getMsg()))
                 //session 管理
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .sessionAuthenticationStrategy(authenticationStrategy)
-                .sessionAuthenticationFailureHandler((req,res,e)-> res.sendError(HttpStatus.UNAUTHORIZED.value(), e.getMessage()))
+                .sessionAuthenticationFailureHandler((req,res,e)-> authenticationEntryPoint(res, e))
                 //放行配置
                 .and()
                 .authorizeRequests()
@@ -74,6 +83,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 // @Anonymous
                 .antMatchers(anonymousUrlSet(requestHandlerMapping.getHandlerMethods())).permitAll()
                 .anyRequest().authenticated();
+    }
+
+    private void authenticationEntryPoint(HttpServletResponse res, AuthenticationException e) throws IOException {
+        String msg = e.getMessage();
+        if (e instanceof InsufficientAuthenticationException){
+            msg = "请登录后再进行此操作";
+        }else if (e instanceof SessionAuthenticationException){
+            msg = "账号异地登录，被挤出";
+        }
+        res.sendError(HttpStatus.UNAUTHORIZED.value(), msg);
     }
 
 

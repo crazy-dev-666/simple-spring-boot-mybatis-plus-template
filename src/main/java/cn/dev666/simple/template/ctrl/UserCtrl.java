@@ -21,6 +21,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -61,6 +63,12 @@ public class UserCtrl {
         return new LoginOTO(session.getId());
     }
 
+    @ApiOperation(value = "登出")
+    @PostMapping("/logout")
+    public void logout(HttpSession session){
+        session.invalidate();
+    }
+
     @ApiOperation(value = "查询分页列表")
     @GetMapping("/page")
     public Page<UserPageOTO> page(@Validated UserPageableITO ito){
@@ -86,6 +94,7 @@ public class UserCtrl {
 
     @ApiOperation(value = "新增")
     @PostMapping("/add")
+    @PreAuthorize("hasAuthority('user:add')")
     public IdOTO add(@Validated @RequestBody UserModifyITO ito){
         User data = userConvert.from(ito);
         boolean flag = userService.save(data);
@@ -97,6 +106,7 @@ public class UserCtrl {
 
     @ApiOperation(value = "更新")
     @PutMapping("/update")
+    @PreAuthorize("hasAuthority('user:update')")
     public void update(@Validated(UserModifyITO.Update.class) @RequestBody UserModifyITO ito){
         User data = userConvert.from(ito);
         boolean flag = userService.updateById(data);
@@ -107,6 +117,7 @@ public class UserCtrl {
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete/{id}")
+    @Secured("user:delete")
     public void delete(@ApiParam(value = "主键", required = true) @PathVariable Long id){
         boolean flag = userService.removeById(id);
         if (!flag){

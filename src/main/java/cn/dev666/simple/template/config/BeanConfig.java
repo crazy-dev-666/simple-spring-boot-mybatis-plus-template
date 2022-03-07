@@ -7,9 +7,6 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.session.Session;
-import org.springframework.session.data.redis.RedisIndexedSessionRepository;
-import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 import org.springframework.session.web.http.HeaderHttpSessionIdResolver;
 import org.springframework.session.web.http.HttpSessionIdResolver;
 import org.springframework.web.cors.CorsConfiguration;
@@ -33,6 +30,14 @@ public class BeanConfig {
     }
 
     /**
+     * 去除权限前缀 ROLE_
+     */
+    @Bean
+    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
+        return new GrantedAuthorityDefaults("");
+    }
+
+    /**
      * 支持跨域
      */
     @Bean
@@ -46,13 +51,6 @@ public class BeanConfig {
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
-    /**
-     * 去除前缀
-     */
-    @Bean
-    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
-        return new GrantedAuthorityDefaults("");
-    }
 
     /**
      * 密码加密方式
@@ -63,15 +61,7 @@ public class BeanConfig {
     }
 
     /**
-     * SpringSession 存取配置
-     */
-    @Bean
-    public SpringSessionBackedSessionRegistry<? extends Session> springSessionBackedSessionRegistry(RedisIndexedSessionRepository repository) {
-        return new SpringSessionBackedSessionRegistry<>(repository);
-    }
-
-    /**
-     * 连接池
+     * redis 连接池
      */
     @Bean
     public LettuceConnectionFactory connectionFactory() {
