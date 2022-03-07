@@ -3,6 +3,7 @@ package cn.dev666.simple.template.config;
 import cn.dev666.simple.template.annotation.Anonymous;
 import cn.dev666.simple.template.enums.CommonErrorInfo;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -73,9 +74,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .sessionAuthenticationStrategy(authenticationStrategy)
                 .sessionAuthenticationFailureHandler((req,res,e)-> authenticationEntryPoint(res, e))
-                //放行配置
+                //接口校验放行配置
                 .and()
                 .authorizeRequests()
+                //静态资源
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 // swagger
                 .antMatchers("/swagger-ui/","/swagger-resources/**", "/webjars/**", "/*/api-docs").permitAll()
                 // OPTIONS
