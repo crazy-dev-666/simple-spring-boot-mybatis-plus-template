@@ -40,6 +40,8 @@ spring:
     redis:
       repositories:
         enabled: false
+  profiles:
+    active: local
 
 user:
   session:
@@ -61,3 +63,25 @@ springfox:
     enabled: true
     swagger-ui:
       enabled: true
+
+
+---
+#本地环境
+spring:
+  config:
+    activate:
+      on-profile: local
+
+---
+#测试环境
+spring:
+  config:
+    activate:
+      on-profile: test
+
+---
+#线上环境
+spring:
+  config:
+    activate:
+      on-profile: online
