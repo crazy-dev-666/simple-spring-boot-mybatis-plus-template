@@ -47,7 +47,7 @@ public class CommonErrorCtrl {
         log.error("请求 " + request.getRequestURI() + " 参数校验未通过", ex);
         BindingResult bindingResult = ex.getBindingResult();
 
-        if (bindingResult != null && bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             FieldError fieldError = bindingResult.getFieldErrors().get(0);
             return ErrorMsg.error(CommonErrorInfo.METHOD_ARGUMENT_NOT_VALID, fieldError.getField(), fieldError.getDefaultMessage());
         }
@@ -60,7 +60,7 @@ public class CommonErrorCtrl {
         log.error("请求 " + request.getRequestURI() + " 参数绑定异常", ex);
         BindingResult bindingResult = ex.getBindingResult();
 
-        if (bindingResult != null && bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             FieldError fieldError = bindingResult.getFieldErrors().get(0);
             return ErrorMsg.error(CommonErrorInfo.BIND_EXCEPTION, fieldError.getField(), fieldError.getDefaultMessage());
         }
