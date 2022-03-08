@@ -10,16 +10,16 @@ public class BusinessException extends RuntimeException {
 
     private ErrorInfo code;
 
-    public BusinessException(ErrorInfo code) {
-        this(code, code.getMsg());
+    public BusinessException(ErrorInfo code, Object... msgArgs) {
+        this(code, code.getMsg(msgArgs));
     }
 
     public BusinessException(ErrorInfo code, String message) {
         this(code, message, null);
     }
 
-    public BusinessException(ErrorInfo code, Throwable cause) {
-        this(code, code.getMsg(), cause);
+    public BusinessException(ErrorInfo code, Throwable cause, Object... msgArgs) {
+        this(code, code.getMsg(msgArgs), cause);
     }
 
     public BusinessException(ErrorInfo code, String message, Throwable cause) {
@@ -32,6 +32,6 @@ public class BusinessException extends RuntimeException {
     }
 
     public ResponseEntity<ErrorMsg> getResponseEntity() {
-        return ErrorMsg.error(code, getMessage());
+        return ErrorMsg.error(getMessage(), code);
     }
 }
