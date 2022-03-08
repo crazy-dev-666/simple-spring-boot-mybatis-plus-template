@@ -30,15 +30,15 @@ import javax.servlet.http.HttpServletRequest;
 public class CommonErrorCtrl {
 
     @ExceptionHandler(value = {HttpMediaTypeException.class})
-    public ResponseEntity<ErrorMsg> handleHttpMediaTypeException(HttpServletRequest request) {
-        log.error("请求 " + request.getRequestURI() + " 参数格式异常");
-        return ErrorMsg.error(CommonErrorInfo.HTTP_MEDIA_TYPE_ERROR);
+    public ResponseEntity<ErrorMsg> handleHttpMediaTypeException(HttpMediaTypeException ex, HttpServletRequest request) {
+        log.error("请求 {} 参数格式异常：{}", request.getRequestURI(), ex.getMessage());
+        return ErrorMsg.error(CommonErrorInfo.HTTP_MEDIA_TYPE_ERROR, request.getContentType());
     }
 
     @ExceptionHandler(value = {HttpRequestMethodNotSupportedException.class})
-    public ResponseEntity<ErrorMsg> handleHttpRequestMethodNotSupportedException(HttpServletRequest request) {
-        log.error("请求 " + request.getRequestURI() + " 方法不支持");
-        return ErrorMsg.error(CommonErrorInfo.HTTP_REQUEST_METHOD_NOT_SUPPORTED);
+    public ResponseEntity<ErrorMsg> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex, HttpServletRequest request) {
+        log.error("请求 {} 方法不支持：{}", request.getRequestURI(), request.getMethod());
+        return ErrorMsg.error(CommonErrorInfo.HTTP_REQUEST_METHOD_NOT_SUPPORTED, request.getMethod());
     }
 
     @ExceptionHandler(value = {HttpMessageNotReadableException.class})
@@ -51,28 +51,26 @@ public class CommonErrorCtrl {
     public ResponseEntity<ErrorMsg> handleOtherExceptions(final MethodArgumentNotValidException ex, HttpServletRequest request) {
         log.error("请求 " + request.getRequestURI() + " 参数校验未通过", ex);
         BindingResult bindingResult = ex.getBindingResult();
-        String msg;
+
         if (bindingResult != null && bindingResult.hasErrors()) {
             FieldError fieldError = bindingResult.getFieldErrors().get(0);
-            msg = "请求参数校验未通过，" + fieldError.getField() + ":" + fieldError.getDefaultMessage();
-        }else {
-            msg = ex.getMessage();
+            return ErrorMsg.error(CommonErrorInfo.METHOD_ARGUMENT_NOT_VALID, fieldError.getField(), fieldError.getDefaultMessage());
         }
-        return ErrorMsg.error(CommonErrorInfo.METHOD_ARGUMENT_NOT_VALID, msg);
+
+        return ErrorMsg.error(ex.getMessage(), CommonErrorInfo.METHOD_ARGUMENT_NOT_VALID);
     }
 
     @ExceptionHandler(value = {BindException.class})
     public ResponseEntity<ErrorMsg> handleOtherExceptions(final BindException ex, HttpServletRequest request) {
         log.error("请求 " + request.getRequestURI() + " 参数绑定异常", ex);
         BindingResult bindingResult = ex.getBindingResult();
-        String msg;
+
         if (bindingResult != null && bindingResult.hasErrors()) {
             FieldError fieldError = bindingResult.getFieldErrors().get(0);
-            msg = "请求参数绑定异常，" + fieldError.getField() + ":" + fieldError.getDefaultMessage();
-        }else {
-            msg = ex.getMessage();
+            return ErrorMsg.error(CommonErrorInfo.BIND_EXCEPTION, fieldError.getField(), fieldError.getDefaultMessage());
         }
-        return ErrorMsg.error(CommonErrorInfo.BIND_EXCEPTION, msg);
+
+        return ErrorMsg.error(ex.getMessage(), CommonErrorInfo.BIND_EXCEPTION);
     }
 
     @ExceptionHandler(value = {AuthenticationException.class})

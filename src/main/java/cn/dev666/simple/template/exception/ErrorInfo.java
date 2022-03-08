@@ -22,5 +22,5 @@ public interface ErrorInfo {
     /**
      * @return 业务异常信息
      */
-    String getMsg();
+    String getMsg(Object... args);
 }
