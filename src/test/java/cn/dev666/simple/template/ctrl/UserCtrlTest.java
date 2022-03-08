@@ -42,7 +42,7 @@ class UserCtrlTest extends ApplicationTests {
     }
 
     @Test
-    @WithMockUser(username="dev666", authorities="admin")
+    @WithMockUser(username="admin", authorities={"user:add","user:update","user:delete"})
     void testAll() throws Exception{
 
         UserModifyITO user = getUser();
