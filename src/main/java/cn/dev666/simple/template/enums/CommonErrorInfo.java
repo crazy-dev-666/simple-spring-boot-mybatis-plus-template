@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+import java.text.MessageFormat;
+
 @Getter
 @AllArgsConstructor
 public enum CommonErrorInfo implements ErrorInfo {
@@ -21,11 +23,11 @@ public enum CommonErrorInfo implements ErrorInfo {
     /**
      * 入参格式不匹配
      */
-    HTTP_MEDIA_TYPE_ERROR(HttpStatus.NOT_ACCEPTABLE,10, "请求的 Content-Type 与接口不匹配，请确认是否和接口文档一致"),
+    HTTP_MEDIA_TYPE_ERROR(HttpStatus.NOT_ACCEPTABLE,10, "请求的 Content-Type {0} 与接口不匹配，请确认是否和接口文档一致"),
     /**
      * 入参方法不支持
      */
-    HTTP_REQUEST_METHOD_NOT_SUPPORTED(HttpStatus.METHOD_NOT_ALLOWED,11, "请求方法不支持，请确认是否和接口文档一致"),
+    HTTP_REQUEST_METHOD_NOT_SUPPORTED(HttpStatus.METHOD_NOT_ALLOWED,11, "请求方法 {0} 不支持，请确认是否和接口文档一致"),
     /**
      * 入参解析失败
      */
@@ -33,11 +35,11 @@ public enum CommonErrorInfo implements ErrorInfo {
     /**
      * 入参校验未通过
      */
-    METHOD_ARGUMENT_NOT_VALID(HttpStatus.PRECONDITION_FAILED,13, ""),
+    METHOD_ARGUMENT_NOT_VALID(HttpStatus.PRECONDITION_FAILED,13, "请求参数校验未通过，{0}:{1}"),
     /**
      * 入参绑定失败
      */
-    BIND_EXCEPTION(HttpStatus.PRECONDITION_FAILED,14, ""),
+    BIND_EXCEPTION(HttpStatus.PRECONDITION_FAILED,14, "请求参数绑定异常，{0}:{1}"),
 
     /**
      * 单个查询结果为空
@@ -64,4 +66,13 @@ public enum CommonErrorInfo implements ErrorInfo {
 
     // 业务异常信息
     private String msg;
+
+
+    @Override
+    public String getMsg(Object... args) {
+        if (args.length == 0){
+            return msg;
+        }
+        return MessageFormat.format(msg, args);
+    }
 }

@@ -15,11 +15,11 @@ import org.springframework.http.ResponseEntity;
 @ApiModel(description = "统一响应体")
 public class ErrorMsg {
 
-	public static ResponseEntity<ErrorMsg> error(@NotNull ErrorInfo msg){
-		return error(msg.getCode(), msg.getMsg(), msg.getStatus());
+	public static ResponseEntity<ErrorMsg> error(@NotNull ErrorInfo msg, Object... msgArgs){
+		return error(msg.getCode(), msg.getMsg(msgArgs), msg.getStatus());
 	}
 
-    public static ResponseEntity<ErrorMsg> error(@NotNull ErrorInfo msg, @NotNull String message){
+    public static ResponseEntity<ErrorMsg> error(@NotNull String message, @NotNull ErrorInfo msg){
         return error(msg.getCode(), message, msg.getStatus());
     }
 
