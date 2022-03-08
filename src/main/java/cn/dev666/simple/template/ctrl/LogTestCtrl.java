@@ -3,11 +3,12 @@ package cn.dev666.simple.template.ctrl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 
 @Slf4j
@@ -16,28 +17,23 @@ import java.util.Arrays;
 @Api(tags = "日志测试_相关接口")
 public class LogTestCtrl {
 
-    @Value("#{environment.activeProfiles}")
-    private String[] env;
+    @Resource
+    private Environment environment;
 
     /**
      *  根据请求参数输出不同级别的日志
      */
     @GetMapping
     @ApiOperation(value = "日志输出测试")
-    public void log(String level) {
+    public void log() {
+        String profile = Arrays.toString(environment.getActiveProfiles());
         String msg = "env：{}, Hello World!";
-        String profile = Arrays.toString(env);
-        try {
-            switch (level){
-                case "trace": log.trace(msg, profile); break;
-                case "debug": log.debug(msg, profile); break;
-                case "info": log.info(msg, profile); break;
-                case "warn": log.warn(msg, profile); break;
-                case "error": log.error(msg, profile); break;
-                default: log.error("未知的日志级别: {}", level); break;
-            }
-        }catch (NullPointerException e){
-            log.error("日志级别为空", e);
-        }
+        log.trace(msg, profile);
+        log.debug(msg, profile);
+        log.info(msg, profile);
+        log.warn(msg, profile);
+        log.error(msg, profile);
+        log.error("未知的日志级别: {}", "unknown");
+        log.error("未知的错误", new NullPointerException());
     }
 }

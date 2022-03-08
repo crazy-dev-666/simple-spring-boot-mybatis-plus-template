@@ -6,7 +6,7 @@
     <Property name="DEFAULT_CHARSET" value="UTF-8"/>
     <Property name="ERROR_FILE_NAME" value="error"/>
     <Property name="INFO_FILE_NAME" value="info"/>
-    <Property name="LOG_PATTERN_LAYOUT" value="%d{HH:mm:ss,SSS} %highlight([%-5.5level]) [%-5.5thread] %yellow([%-6.6X{name}]) %cyan([%-40.40class:%-4.4line]) - %msg%xEx%n"/>
+    <Property name="LOG_PATTERN_LAYOUT" value="%d{HH:mm:ss.SSS,GMT+8} %highlight([%-5.5level]) [%-5.5thread] %yellow([%-6.6X{name}]) %cyan([%-40.40class:%-4.4line]) - %msg%xEx%n"/>
 
     <!--输出到控制台-->
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
@@ -20,10 +20,14 @@
         <!--日志文件路径，日志文件名称-->
         <File>${LOG_HOME}/${INFO_FILE_NAME}.log</File>
 
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern> ${LOG_BACK_HOME}/${INFO_FILE_NAME}-%d{yyyy-MM-dd}.log.gz</FileNamePattern>
-            <!-- 配置日志的滚动时间 ，表示只保留最近 30 天的日志-->
-            <MaxHistory>30</MaxHistory>
+        <!--日志滚动策略，按照时间和大小策略。每天生成新的日志文件，日志文件大于300MB时，当天继续生成新的日志文件。
+                       历史文件压缩存储，清理策略：文件数超出90个或总大小超出10GB时，清理最老的日志文件，直到符合规则-->
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern> ${LOG_BACK_HOME}/%d{yyyy-MM,GMT+8,aux}/${INFO_FILE_NAME}-%d{yyyy-MM-dd,GMT+8}-%i.log.gz</FileNamePattern>
+            <MaxFileSize>300MB</MaxFileSize>
+            <MaxHistory>90</MaxHistory>
+            <TotalSizeCap>10GB</TotalSizeCap>
         </rollingPolicy>
 
         <!-- 输出的日志内容格式化-->
@@ -40,16 +44,16 @@
             <OnMismatch>DENY</OnMismatch>
             <OnMatch>ACCEPT</OnMatch>
         </filter>
-        <!--日志文件路径，日志文件名称-->
+
         <File>${LOG_HOME}/${ERROR_FILE_NAME}.log</File>
 
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern> ${LOG_BACK_HOME}/${ERROR_FILE_NAME}-%d{yyyy-MM-dd}.log.gz</FileNamePattern>
-            <!-- 配置日志的滚动时间 ，表示只保留最近 30 天的日志-->
-            <MaxHistory>30</MaxHistory>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern> ${LOG_BACK_HOME}/%d{yyyy-MM,GMT+8,aux}/${ERROR_FILE_NAME}-%d{yyyy-MM-dd,GMT+8}-%i.log.gz</FileNamePattern>
+            <MaxFileSize>300MB</MaxFileSize>
+            <MaxHistory>90</MaxHistory>
+            <TotalSizeCap>10GB</TotalSizeCap>
         </rollingPolicy>
 
-        <!-- 输出的日志内容格式化-->
         <encoder>
             <pattern>${LOG_PATTERN_LAYOUT}</pattern>
         </encoder>
