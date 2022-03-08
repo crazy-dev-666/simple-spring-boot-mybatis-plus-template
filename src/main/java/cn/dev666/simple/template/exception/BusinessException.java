@@ -3,6 +3,8 @@ package cn.dev666.simple.template.exception;
 import cn.dev666.simple.template.obj.common.ErrorMsg;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Locale;
+
 /**
  * 业务异常
  */
@@ -10,8 +12,10 @@ public class BusinessException extends RuntimeException {
 
     private ErrorInfo code;
 
+    private Object[] args;
+
     public BusinessException(ErrorInfo code) {
-        this(code, code.getMsg());
+        this(code, code.getMsg(Locale.getDefault()));
     }
 
     public BusinessException(ErrorInfo code, String message) {

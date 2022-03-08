@@ -2,6 +2,8 @@ package cn.dev666.simple.template.exception;
 
 import org.springframework.http.HttpStatus;
 
+import java.util.Locale;
+
 /**
  * 错误信息
  */
@@ -20,7 +22,12 @@ public interface ErrorInfo {
     int getCode();
 
     /**
-     * @return 业务异常信息
+     * @return 业务异常信息，默认 Locale
      */
-    String getMsg();
+    String getMsg(Object... args);
+
+    /**
+     * @return 业务异常信息，指定 Locale
+     */
+    String getMsg(Locale locale, Object... args);
 }
