@@ -21,6 +21,7 @@
 
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <lombok.version>1.18.20</lombok.version>
+        <jsr305.version>3.0.2</jsr305.version>
 
         <mybatis-plus.starter.version>3.1.1</mybatis-plus.starter.version>
     </properties>
@@ -82,6 +83,12 @@
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
+        <!-- jsr305 工具 -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>${jsr305.version}</version>
+        </dependency>
 
         <!-- 值对象转换 工具 -->
         <dependency>
