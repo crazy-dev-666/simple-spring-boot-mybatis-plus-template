@@ -86,7 +86,7 @@ public class CommonErrorCtrl {
             return ErrorMsg.error(CommonErrorInfo.DEFAULT_ERROR);
         }
 
-        return ErrorMsg.error(CommonErrorInfo.UNAUTHORIZED, msg);
+        return ErrorMsg.error(msg, CommonErrorInfo.UNAUTHORIZED);
     }
 
     @ExceptionHandler(value = {AccessDeniedException.class})
