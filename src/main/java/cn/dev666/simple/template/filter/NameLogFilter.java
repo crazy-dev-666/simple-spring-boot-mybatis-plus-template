@@ -1,6 +1,7 @@
 package cn.dev666.simple.template.filter;
 
 import org.slf4j.MDC;
+import org.springframework.core.Ordered;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class NameLogFilter extends OncePerRequestFilter {
+public class NameLogFilter extends OncePerRequestFilter implements Ordered {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -33,5 +34,10 @@ public class NameLogFilter extends OncePerRequestFilter {
          */
         MDC.put("name", name);
         filterChain.doFilter(request, response);
+    }
+
+    @Override
+    public int getOrder() {
+        return -100;
     }
 }

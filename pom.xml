@@ -83,6 +83,13 @@
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
+        <!-- 记录请求和响应 -->
+        <dependency>
+            <groupId>cn.dev666.component</groupId>
+            <artifactId>request-log-boot-starter</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+
         <!-- jsr305 工具 -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
