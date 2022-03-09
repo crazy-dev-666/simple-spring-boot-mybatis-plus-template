@@ -33,10 +33,6 @@ spring:
     init:
       schema-locations: classpath:sql/schema.sql
       data-locations: classpath:sql/data.sql
-  redis:
-    host: 127.0.0.1
-    port: 6379
-    timeout: 5s
   session:
     store-type: redis
     timeout: 4h
@@ -75,14 +71,24 @@ spring:
   config:
     activate:
       on-profile: local
-
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    timeout: 5s
 ---
 #测试环境
 spring:
   config:
     activate:
       on-profile: test
+  redis:
+    host: 127.0.0.1
+    port: 8700
+    timeout: 5s
+    password: 123456
 
+server:
+  port: 9988
 ---
 #线上环境
 spring:
