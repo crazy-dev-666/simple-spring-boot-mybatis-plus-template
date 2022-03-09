@@ -39,10 +39,8 @@
     <!-- 配置错误日志-->
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--级别大于等于WARN的日志可以写入-->
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>WARN</level>
-            <OnMismatch>DENY</OnMismatch>
-            <OnMatch>ACCEPT</OnMatch>
         </filter>
 
         <File>${LOG_HOME}/${ERROR_FILE_NAME}.log</File>
