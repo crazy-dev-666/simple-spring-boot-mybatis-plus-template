@@ -80,7 +80,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 //静态资源
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 // swagger
-                .antMatchers("/swagger-ui/","/swagger-resources/**", "/webjars/**", "/*/api-docs").permitAll()
+                .antMatchers("/swagger-ui/**","/swagger-resources/**", "/*/api-docs").permitAll()
                 // OPTIONS
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // @Anonymous
