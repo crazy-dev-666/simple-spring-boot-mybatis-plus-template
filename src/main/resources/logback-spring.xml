@@ -57,9 +57,11 @@
         </encoder>
     </appender>
 
-
-    <logger name="cn.dev666" level="debug"/>
-
+    <logger name="cn.dev666" level="info"/>
+    <logger name="cn.dev666.simple.template.ctrl.LogTestCtrl" level="debug"/>
+    <!-- 输出sql
+    <logger name="cn.dev666.simple.template.dao" level="debug"/>
+    -->
     <!-- 本地环境 -->
     <springProfile name="local">
         <root level="INFO">
