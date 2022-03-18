@@ -64,7 +64,23 @@ springfox:
     swagger-ui:
       enabled: true
 
-
+dev666:
+  event:
+    notice:
+      enabled: true
+      interval: 1h
+      aggregation-interval: 3s
+      threshold: 100
+      ignore-profiles: test
+      warn-log: true
+      ding-ding:
+        enabled: true
+        notice-url: https://oapi.dingtalk.com/robot/send?access_token=f738000e4d96851d2abae2ba882917b1855e595453f895213833b572cf26880c
+        at-all: true
+      os:
+        enabled: true
+      jvm:
+        enabled: true
 ---
 #本地环境
 spring:

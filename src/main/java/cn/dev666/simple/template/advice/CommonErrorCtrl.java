@@ -1,9 +1,11 @@
 package cn.dev666.simple.template.advice;
 
+import cn.dev666.component.event.notice.event.Events;
 import cn.dev666.simple.template.enums.CommonErrorInfo;
 import cn.dev666.simple.template.exception.BusinessException;
 import cn.dev666.simple.template.obj.common.ErrorMsg;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -28,6 +31,9 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @RestControllerAdvice
 public class CommonErrorCtrl {
+
+    @Resource
+    private ApplicationEventPublisher publisher;
 
     @ExceptionHandler(value = {HttpMediaTypeException.class})
     public ResponseEntity<ErrorMsg> handleHttpMediaTypeException(HttpMediaTypeException ex, HttpServletRequest request) {
@@ -99,12 +105,14 @@ public class CommonErrorCtrl {
     @ExceptionHandler(value = {BusinessException.class})
     public ResponseEntity<ErrorMsg> handleOtherExceptions(final BusinessException ex, HttpServletRequest request) {
         log.error("请求 "+request.getRequestURI()+" 业务出错", ex);
+        publisher.publishEvent(Events.exceptionEvent(request.getRequestURL().toString(), ex));
         return ex.getResponseEntity();
     }
 
-    @ExceptionHandler(value = {Throwable.class})
-    public ResponseEntity<ErrorMsg> handleOtherExceptions(final Throwable ex, HttpServletRequest request) {
+    @ExceptionHandler(value = {Exception.class})
+    public ResponseEntity<ErrorMsg> handleOtherExceptions(final Exception ex, HttpServletRequest request) {
         log.error("请求 "+request.getRequestURI()+" 出错", ex);
+        publisher.publishEvent(Events.exceptionEvent(request.getRequestURL().toString(), ex));
         return ErrorMsg.error(CommonErrorInfo.DEFAULT_ERROR);
     }
 }

@@ -90,6 +90,13 @@
             <version>0.0.1</version>
         </dependency>
 
+        <!-- 事件提醒 -->
+        <dependency>
+            <groupId>cn.dev666.component</groupId>
+            <artifactId>event-notice-boot-starter</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+
         <!-- jsr305 工具 -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
