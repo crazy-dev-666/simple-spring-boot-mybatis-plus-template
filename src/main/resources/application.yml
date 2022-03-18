@@ -92,12 +92,13 @@ spring:
     port: 6379
     timeout: 5s
 
-request:
-  log:
-    scene: dev
-    headers:
-      - Auth-Token
-      - Content-Type
+dev666:
+  request:
+    log:
+      scene: dev
+      headers:
+        - Auth-Token
+        - Content-Type
 ---
 #测试环境
 spring:
@@ -113,9 +114,10 @@ spring:
 server:
   port: 9988
 
-request:
-  log:
-    scene: test
+dev666:
+  request:
+    log:
+      scene: test
 ---
 #线上环境
 spring:
@@ -123,6 +125,7 @@ spring:
     activate:
       on-profile: online
 
-request:
-  log:
-    scene: online
+dev666:
+  request:
+    log:
+      scene: online
