@@ -1,5 +1,8 @@
 package cn.dev666.simple.template.ctrl;
 
+import cn.dev666.simple.template.annotation.Anonymous;
+import cn.dev666.simple.template.enums.CommonErrorInfo;
+import cn.dev666.simple.template.exception.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -35,5 +38,15 @@ public class LogTestCtrl {
         log.error(msg, profile);
         log.error("未知的日志级别: {}", "unknown");
         log.error("未知的错误", new NullPointerException());
+    }
+
+    /**
+     *  异常事件测试
+     */
+    @Anonymous
+    @GetMapping("/event/test")
+    @ApiOperation(value = "异常事件测试")
+    public void testEvent() {
+        throw new BusinessException(CommonErrorInfo.DEFAULT_ERROR);
     }
 }

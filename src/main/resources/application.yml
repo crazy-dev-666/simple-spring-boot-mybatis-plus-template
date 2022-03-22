@@ -75,7 +75,7 @@ dev666:
       warn-log: true
       ding-ding:
         enabled: true
-        notice-url: https://oapi.dingtalk.com/robot/send?access_token=f738000e4d96851d2abae2ba882917b1855e595453f895213833b572cf26880c
+        notice-url: https://oapi.dingtalk.com/robot/send?access_token=xxx
         at-all: true
       os:
         enabled: true
