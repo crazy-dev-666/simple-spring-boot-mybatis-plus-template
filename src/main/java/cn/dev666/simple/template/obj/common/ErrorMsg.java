@@ -2,13 +2,14 @@ package cn.dev666.simple.template.obj.common;
 
 import cn.dev666.simple.template.exception.ErrorInfo;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.sun.istack.internal.NotNull;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
